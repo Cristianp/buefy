@@ -38,7 +38,9 @@
     export default {
         name: 'BDatepickerTableRow',
         props: {
-            selectedDate: Date,
+            selectedDate: {
+                type: [Date, Array]
+            },
             week: {
                 type: Array,
                 required: true
@@ -147,13 +149,34 @@
                         return false
                     }
 
+                    if (Array.isArray(dateTwo)) {
+                        return dateTwo.some((date) => (
+                            dateOne.getDate() === date.getDate() &&
+                            dateOne.getFullYear() === date.getFullYear() &&
+                            dateOne.getMonth() === date.getMonth()
+                        ))
+                    }
+
                     return (dateOne.getDate() === dateTwo.getDate() &&
                         dateOne.getFullYear() === dateTwo.getFullYear() &&
                         dateOne.getMonth() === dateTwo.getMonth())
                 }
 
+                function dateWithin(dateOne, dates) {
+                    if (!Array.isArray(dates)) { return false }
+
+                    return dateOne > dates[0] && dateOne < dates[1]
+                }
+
                 return {
-                    'is-selected': dateMatch(day, this.selectedDate),
+                    'is-selected':
+                        dateMatch(day, this.selectedDate) || dateWithin(day, this.selectedDate),
+                    'is-first':
+                        dateMatch(day, Array.isArray(this.selectedDate) && this.selectedDate[0]),
+                    'is-within':
+                        dateWithin(day, this.selectedDate),
+                    'is-last':
+                        dateMatch(day, Array.isArray(this.selectedDate) && this.selectedDate[1]),
                     'is-today': dateMatch(day, new Date()),
                     'is-selectable': this.selectableDate(day) && !this.disabled,
                     'is-unselectable': !this.selectableDate(day) || this.disabled

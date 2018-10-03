@@ -23,6 +23,13 @@ export default [
                 default: '<code>(date) => new Date(Date.parse(date))</code>'
             },
             {
+                name: '<code>range</code>',
+                description: 'Flag to allow choosing a range of date',
+                type: 'Boolean',
+                values: '—',
+                default: '<code>false</code>'
+            },
+            {
                 name: '<code>min-date</code>',
                 description: 'Earliest date available for selection',
                 type: 'Date',

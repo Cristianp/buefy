@@ -23,6 +23,7 @@
                 :selectable-dates="selectableDates"
                 :events="eventsInThisWeek(week, index)"
                 :indicators="indicators"
+                :range="range"
                 @select="updateSelectedDate"/>
         </div>
     </section>
@@ -37,7 +38,9 @@
             [DatepickerTableRow.name]: DatepickerTableRow
         },
         props: {
-            value: Date,
+            value: {
+                type: [Date, Array]
+            },
             dayNames: Array,
             monthNames: Array,
             firstDayOfWeek: Number,
@@ -49,7 +52,14 @@
             disabled: Boolean,
             unselectableDates: Array,
             unselectableDaysOfWeek: Array,
-            selectableDates: Array
+            selectableDates: Array,
+            range: Boolean
+        },
+        data() {
+            return {
+                selectedBeginDate: undefined,
+                selectedEndDate: undefined
+            }
         },
         computed: {
             visibleDayNames() {
@@ -100,7 +110,33 @@
             * Emit input event with selected date as payload for v-model in parent
             */
             updateSelectedDate(date) {
-                this.$emit('input', date)
+                if (!this.range) {
+                    this.$emit('input', date)
+                } else {
+                    this.handleSelectRangeDate(date)
+                }
+            },
+
+            /*
+            * If both begin and end dates are set, reset the end date and set the begin date.
+            * If only begin date is selected, emit an array of the begin date and the new date.
+            * If not set, only set the begin date.
+            */
+            handleSelectRangeDate(date) {
+                if (this.selectedBeginDate && this.selectedEndDate) {
+                    this.selectedBeginDate = date
+                    this.selectedEndDate = undefined
+                } else if (this.selectedBeginDate && !this.selectedEndDate) {
+                    if (this.selectedBeginDate > date) {
+                        this.selectedEndDate = this.selectedBeginDate
+                        this.selectedBeginDate = date
+                    } else {
+                        this.selectedEndDate = date
+                    }
+                    this.$emit('input', [this.selectedBeginDate, this.selectedEndDate])
+                } else {
+                    this.selectedBeginDate = date
+                }
             },
 
             /*
