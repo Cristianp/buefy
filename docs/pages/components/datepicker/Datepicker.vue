@@ -12,8 +12,15 @@
             </b-message>
         </Example>
 
-        <Example :component="ExRange" :code="ExRangeCode" title="Range" vertical>
-            <p>You can limit the date range with <code>min-date</code> and <code>max-date</code> props.</p>
+        <Example :component="ExRange" :code="ExRangeCode" title="Limit selectable dates" vertical>
+            <p>You can limit the selectable date range with <code>min-date</code> and <code>max-date</code> props.</p>
+        </Example>
+
+        <Example :component="ExRangeInput" :code="ExRangeInputCode" title="Select a range of dates" vertical>
+            <div class="tags has-addons">
+                <span class="tag is-success">New!</span>
+            </div>
+            <p>Dates selected can be within a range.</p>
         </Example>
 
         <Example :component="ExFooter" :code="ExFooterCode" title="Footer" vertical>
@@ -68,6 +75,9 @@
     import ExEvents from './examples/ExEvents'
     import ExEventsCode from '!!raw-loader!./examples/ExEvents'
 
+    import ExRangeInput from './examples/ExRangeInput'
+    import ExRangeInputCode from '!!raw-loader!./examples/ExRangeInput'
+
     export default {
         data() {
             return {
@@ -85,7 +95,9 @@
                 ExInline,
                 ExInlineCode,
                 ExEvents,
-                ExEventsCode
+                ExEventsCode,
+                ExRangeInput,
+                ExRangeInputCode
             }
         }
     }

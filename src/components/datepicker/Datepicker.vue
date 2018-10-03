@@ -109,6 +109,7 @@
                     :selectable-dates="selectableDates"
                     :events="events"
                     :indicators="indicators"
+                    :range="range"
                     @close="$refs.dropdown.isActive = false"/>
 
                 <footer
@@ -168,7 +169,9 @@
         mixins: [FormElementMixin],
         inheritAttrs: false,
         props: {
-            value: Date,
+            value: {
+                type: [Date, Array]
+            },
             dayNames: {
                 type: Array,
                 default: () => {
@@ -244,13 +247,16 @@
                 default: (date) => {
                     if (typeof config.defaultDateFormatter === 'function') {
                         return config.defaultDateFormatter(date)
-                    } else {
-                        const yyyyMMdd = date.getFullYear() +
-                            '/' + (date.getMonth() + 1) +
-                            '/' + date.getDate()
-                        const d = new Date(yyyyMMdd)
-                        return d.toLocaleDateString()
                     }
+
+                    const targetDates = Array.isArray(date) ? date : [date]
+                    return targetDates.map((targetDate) => {
+                        const yyyyMMdd = targetDate.getFullYear() +
+                            '/' + (targetDate.getMonth() + 1) +
+                            '/' + targetDate.getDate()
+                        const validDate = new Date(yyyyMMdd)
+                        return validDate.toLocaleDateString()
+                    }).join(' - ')
                 }
             },
             dateParser: {
@@ -274,10 +280,16 @@
             indicators: {
                 type: String,
                 default: 'dots'
+            },
+            range: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
-            const focusedDate = this.value || this.focusedDate || new Date()
+            const focusedDate = Array.isArray(this.value)
+                ? this.value[0]
+                : (this.value || this.focusedDate || new Date())
 
             return {
                 dateSelected: this.value,
@@ -334,7 +346,7 @@
             * Update internal focusedDateData
             */
             dateSelected(value) {
-                const currentDate = !value ? new Date() : value
+                const currentDate = Array.isArray(value) ? value[0] : (!value ? new Date() : value)
                 this.focusedDateData = {
                     month: currentDate.getMonth(),
                     year: currentDate.getFullYear()
@@ -401,7 +413,12 @@
             * Format date into string
             */
             formatValue(value) {
-                if (value && !isNaN(value)) {
+                if (!value) { return }
+
+                const isArrayWithValidDates = Array.isArray(value) && value.every((v) => !isNaN(v))
+                const isValidDate = !isNaN(value)
+
+                if (isArrayWithValidDates || isValidDate) {
                     return this.dateFormatter(value)
                 } else {
                     return null
