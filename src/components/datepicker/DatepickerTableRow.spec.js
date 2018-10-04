@@ -21,8 +21,8 @@ describe('BDatepickerTableRow', () => {
         expect(wrapper.isVueInstance()).toBeTruthy()
     })
 
-    describe('classObject', function() {
-        it('will has is-selected class for all range of dates selected', function() {
+    describe('classObject', function () {
+        it('will has is-selected class for all range of dates selected', function () {
             const wrapper = shallow(BDatepickerTableRow, {
                 propsData: {
                     ...propsData,
@@ -32,7 +32,7 @@ describe('BDatepickerTableRow', () => {
             expect(wrapper.findAll('.is-selected').length).toBe(5)
         })
 
-        it('will have is-first class for the first date selected within the range', function() {
+        it('will have is-first class for the first date selected within the range', function () {
             const wrapper = shallow(BDatepickerTableRow, {
                 propsData: {
                     ...propsData,
@@ -43,7 +43,7 @@ describe('BDatepickerTableRow', () => {
             expect(firstSelectedCell.classes()).toContain('is-first')
         })
 
-        it('will have is-within class for the dates selected within the range', function() {
+        it('will have is-within class for the dates selected within the range', function () {
             const wrapper = shallow(BDatepickerTableRow, {
                 propsData: {
                     ...propsData,
@@ -54,7 +54,7 @@ describe('BDatepickerTableRow', () => {
             expect(withinSelectedRangeCells.length).toBe(3)
         })
 
-        it('will have is-last class for the last date selected within the range', function() {
+        it('will have is-last class for the last date selected within the range', function () {
             const wrapper = shallow(BDatepickerTableRow, {
                 propsData: {
                     ...propsData,
@@ -62,7 +62,7 @@ describe('BDatepickerTableRow', () => {
                 }
             })
             // wrappers should return 5 elements. Destructure to get the last one
-            const {wrappers: [, , , ,lastSelectedCell]} = wrapper.findAll('.is-selected')
+            const {wrappers: [, , , , lastSelectedCell]} = wrapper.findAll('.is-selected')
             expect(lastSelectedCell.classes()).toContain('is-last')
         })
     })
