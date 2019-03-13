@@ -6930,13 +6930,17 @@ label.panel-block {
           background-color: #7957d5;
           color: white; }
           .datepicker .datepicker-table .datepicker-body .datepicker-row .datepicker-cell.is-selected.is-within {
-            border-radius: 0; }
+            border-radius: 0;
+            background-color: rgba(121, 87, 213, 0.5); }
           .datepicker .datepicker-table .datepicker-body .datepicker-row .datepicker-cell.is-selected.is-first {
             border-bottom-right-radius: 0;
             border-top-right-radius: 0; }
           .datepicker .datepicker-table .datepicker-body .datepicker-row .datepicker-cell.is-selected.is-last {
             border-bottom-left-radius: 0;
             border-top-left-radius: 0; }
+          .datepicker .datepicker-table .datepicker-body .datepicker-row .datepicker-cell.is-selected.is-within:hover, .datepicker .datepicker-table .datepicker-body .datepicker-row .datepicker-cell.is-selected.is-first:hover, .datepicker .datepicker-table .datepicker-body .datepicker-row .datepicker-cell.is-selected.is-last:hover {
+            background-color: whitesmoke;
+            color: #0a0a0a; }
       .datepicker .datepicker-table .datepicker-body.has-events .datepicker-cell {
         padding: 0.3rem 0.75rem 0.75rem; }
         .datepicker .datepicker-table .datepicker-body.has-events .datepicker-cell.has-event {

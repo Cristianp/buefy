@@ -60,6 +60,7 @@
                         color: $primary-invert;
                         &.is-within {
                             border-radius: 0;
+                            background-color: rgba($primary, 0.5);
                         }
                         &.is-first {
                             border-bottom-right-radius: 0;
@@ -69,6 +70,10 @@
                             border-bottom-left-radius: 0;
                             border-top-left-radius: 0;
                         }
+                        &.is-within:hover, &.is-first:hover, &.is-last:hover {
+                            background-color: $background;
+                            color: $black;
+                       }
                     }
                 }
             }
